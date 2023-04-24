@@ -1,0 +1,34 @@
+import { ManagedElement } from "../node/element";
+import type { Node } from "../node/node";
+import { LocationContext } from "./location";
+
+export * from "./location";
+
+export type ConstructorFn = (attributes: Record<string, string>, children: Node[], ctx?: LocationContext<any>) => ManagedElement;
+
+export type ElementClass = {
+  name: string,
+  new: ConstructorFn,
+  prototype: any
+} | {
+  name: string,
+  prototype: any,
+  new(name: string, attributes: Record<string, string>, children: Node[]): ManagedElement,
+}
+
+export class ParseContext {
+  protected readonly constructors: Map<string, ConstructorFn> = new Map;
+
+  registerConstructor(klass: ElementClass): void {
+    if ("new" in klass) {
+      this.constructors.set(klass.name.toLowerCase(), klass.new);
+      return;
+    }
+
+    this.constructors.set(klass.name.toLowerCase(), (attributes, children) => new klass(klass.name, attributes, children))
+  }
+
+  getConstructor(name: string): ConstructorFn | undefined {
+    return this.constructors.get(name.toLowerCase());
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "typed-xml",
+  "version": "1.0.7",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./jsx-runtime": "./dist/jsx-runtime/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "if exist dist del /f /q dist && tsc -p ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/sax": "^1.2.4",
+    "emittery": "^0.13.1",
+    "sax": "^1.2.4"
+  }
+}
