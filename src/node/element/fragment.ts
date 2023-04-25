@@ -2,11 +2,14 @@ import { Node } from "../node";
 import { FormattingConfig, ManagedElement } from "./managed";
 
 export class FragmentElement extends ManagedElement {
+  private children: Node[];
   constructor(
-    private children: Node[],
+    children: Node | Node[],
     public parent?: ManagedElement,
   ) {
     super();
+
+    this.children = Array.isArray(children) ? children : [ children ];
   }
 
   toString(config?: Partial<FormattingConfig>, depth: number = 0) {

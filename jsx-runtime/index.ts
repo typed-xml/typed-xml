@@ -53,10 +53,10 @@ export function jsx(element: ElementClass | typeof Fragment, props: { children?:
   }
 
   if (realChildren.length === 0) {
-    return new FragmentElement([DefaultElement.selfClosing(element.name, props)]);
+    return new FragmentElement(DefaultElement.selfClosing(element.name, props));
   }
 
-  return new FragmentElement([new DefaultElement(element.name, props, realChildren)]);
+  return new FragmentElement(new DefaultElement(element.name, props, realChildren));
 }
 
 export const Fragment = Symbol("Fragment");

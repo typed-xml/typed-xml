@@ -41,7 +41,7 @@ export class DefaultElement extends ManagedElement {
     return this.into(constructor);
   }
 
-  render() { return new FragmentElement([ this ], this.getParent()) }
+  render() { return new FragmentElement(this, this.getParent()) }
 
   getName() { return this.name }
   getAttributes() { return this.attributes }
