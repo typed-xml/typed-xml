@@ -14,7 +14,7 @@ export function jsx(element: ElementClass | typeof Fragment, props: { children?:
     const elsChildren: Node[] = [];
 
     for (const child of children) {
-      if (child instanceof DefaultElement)
+      if (child instanceof Node)
         elsChildren.push(child)
       else
         elsChildren.push(new TextNode(child.toString()));
@@ -37,13 +37,13 @@ export function jsx(element: ElementClass | typeof Fragment, props: { children?:
   let realChildren: Node[] = [];
 
   if (!Array.isArray(children)) {
-    if (children instanceof ManagedElement)
+    if (children instanceof Node)
       realChildren.push(children);
     else
       realChildren.push(new TextNode(children.toString()))
   } else {
     for (const child of children) {
-      if (child instanceof ManagedElement) {
+      if (child instanceof Node) {
         realChildren.push(child);
         continue;
       }
