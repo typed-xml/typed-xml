@@ -15,17 +15,21 @@ export class DefaultElement extends ManagedElement {
   constructor(
     protected name: string,
     protected attributes: Record<string, string>,
-    children: Node[],
+    children: Node[]
   ) {
     super();
 
-    this.children = new FragmentElement(...children);
+    for (const child of children) {
+      child.parentContainer = this;
+    }
+
+    this.children = new FragmentElement(children, this);
   }
 
   protected children: FragmentElement;
 
   into<Constructor extends ConstructorFn>(constructor: Constructor): ReturnType<Constructor> {
-    return constructor(this.attributes, this.children) as ReturnType<Constructor>;
+    return constructor(this.attributes, this.children.getChildren()) as ReturnType<Constructor>;
   }
 
   parse(context: ParseContext) {
@@ -37,13 +41,13 @@ export class DefaultElement extends ManagedElement {
     return this.into(constructor);
   }
 
-  render() { return [ this ] }
+  render() { return new FragmentElement([ this ], this.getParent()) }
 
   getName() { return this.name }
   getAttributes() { return this.attributes }
   getAttribute(attribute: string): string | undefined { return this.attributes[attribute] }
   setAttributes(attributes: Record<string, string>) { this.attributes = attributes }
   setAttribute(key: string, value: string) { this.attributes[key] = value }
-  getChildren() { return this.children }
+  getChildren() { return this.children.getChildren() }
   getAttributeCount() { return Object.keys(this.attributes).length }
 }

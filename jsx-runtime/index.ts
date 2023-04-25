@@ -11,16 +11,16 @@ export function jsxs(element: ElementClass | typeof Fragment, props: { children?
 export function jsx(element: ElementClass | typeof Fragment, props: { children?: DefaultElement | string | number | boolean | (DefaultElement | string | number | boolean)[] } & { [key: string]: string }, key?: string): FragmentElement {
   if (element === Fragment) {
     const children = props.children !== undefined ? Array.isArray(props.children) ? props.children : [ props.children ] : [];
-    let els = new FragmentElement();
+    const elsChildren: Node[] = [];
 
     for (const child of children) {
       if (child instanceof DefaultElement)
-        els.push(child)
+        elsChildren.push(child)
       else
-        els.push(new TextNode(child.toString()));
+        elsChildren.push(new TextNode(child.toString()));
     }
 
-    return els;
+    return new FragmentElement(elsChildren);
   }
 
   const children = props.children ?? [];
@@ -34,7 +34,7 @@ export function jsx(element: ElementClass | typeof Fragment, props: { children?:
       delete props[key];
   }
 
-  let realChildren = new FragmentElement();
+  let realChildren: Node[] = [];
 
   if (!Array.isArray(children)) {
     if (children instanceof ManagedElement)
@@ -53,10 +53,10 @@ export function jsx(element: ElementClass | typeof Fragment, props: { children?:
   }
 
   if (realChildren.length === 0) {
-    return new FragmentElement(DefaultElement.selfClosing(element.name, props));
+    return new FragmentElement([DefaultElement.selfClosing(element.name, props)]);
   }
 
-  return new FragmentElement(new DefaultElement(element.name, props, realChildren));
+  return new FragmentElement([new DefaultElement(element.name, props, realChildren)]);
 }
 
 export const Fragment = Symbol("Fragment");

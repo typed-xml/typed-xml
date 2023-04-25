@@ -1,7 +1,7 @@
 import "./processingInstruction";
 
 import { ParseContext } from "../context";
-import { XmlStreamReader } from "../reader/xmlStreamReader";
+import { XmlStreamReader } from "../reader";
 import { Node } from "./node";
 
 export class DoctypeNode extends Node {

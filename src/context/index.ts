@@ -4,7 +4,8 @@ import { LocationContext } from "./location";
 
 export * from "./location";
 
-export type ConstructorFn = (attributes: Record<string, string>, children: Node[], ctx?: LocationContext<any>) => ManagedElement;
+export const ConstructionFailure = Symbol("Construction Failure");
+export type ConstructorFn = (attributes: Record<string, string>, children: Node[], ctx?: LocationContext<any>) => ManagedElement | typeof ConstructionFailure;
 
 export type ElementClass = {
   name: string,

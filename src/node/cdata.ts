@@ -20,7 +20,14 @@ export class CDataNode extends Node {
 
   constructor(protected text: string) { super() }
 
-  setContents(text: string) { this.text = text }
+  setContents(text: string) {
+    const [self, ...others] = this.text.split("]]>");
+    this.text = self;
+
+    for (const other of others) {
+      this.append(new CDataNode(other));
+    }
+  }
   getContents() { return this.text }
 
   toString() { return `<![CDATA[${this.getContents()}]]>` }

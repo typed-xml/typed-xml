@@ -15,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/node": "^18.16.0",
     "@types/sax": "^1.2.4",
     "emittery": "^0.13.1",
     "sax": "^1.2.4"
