@@ -1,4 +1,4 @@
-export type SymbolLocation = number;
+export type SymbolLocation = { start: number, end: number };
 
 export type TextSymbol = {
   kind: "text",

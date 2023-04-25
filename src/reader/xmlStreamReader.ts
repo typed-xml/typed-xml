@@ -52,7 +52,7 @@ export class XmlStreamReader<T = unknown> extends Emittery<{
   private onSymbol(symbol: XmlUnlocatedSymbol) {
     const request = this.requestQueue.shift();
 
-    const locatedSymbol: XmlSymbol = { ...symbol, location: this.parser.startTagPosition }
+    const locatedSymbol: XmlSymbol = { ...symbol, location: { start: this.parser.startTagPosition, end: this.parser.position } }
 
     if (request)
       request.resolve(locatedSymbol);
