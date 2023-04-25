@@ -1,6 +1,6 @@
 import Emittery from "emittery";
 import * as sax from "sax";
-import { XmlSymbol, XmlUnlocatedSymbol } from "./symbol";
+import { SymbolLocation, XmlSymbol, XmlUnlocatedSymbol } from "./symbol";
 
 export class XmlStreamReader<T = unknown> extends Emittery<{
   error: Error,
@@ -52,7 +52,7 @@ export class XmlStreamReader<T = unknown> extends Emittery<{
   private onSymbol(symbol: XmlUnlocatedSymbol) {
     const request = this.requestQueue.shift();
 
-    const locatedSymbol: XmlSymbol = { ...symbol, location: { line: this.parser.line, column: this.parser.column, position: this.parser.position } }
+    const locatedSymbol: XmlSymbol = { ...symbol, location: this.parser.startTagPosition }
 
     if (request)
       request.resolve(locatedSymbol);

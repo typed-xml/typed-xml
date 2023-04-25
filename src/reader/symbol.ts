@@ -1,8 +1,4 @@
-export type SymbolLocation = {
-  line: number,
-  column: number,
-  position: number,
-}
+export type SymbolLocation = number;
 
 export type TextSymbol = {
   kind: "text",
