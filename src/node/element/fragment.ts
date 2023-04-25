@@ -1,5 +1,5 @@
 import { Node } from "../node";
-import { ManagedElement } from "./managed";
+import { FormattingConfig, ManagedElement } from "./managed";
 
 export class FragmentElement extends ManagedElement {
   constructor(
@@ -9,8 +9,10 @@ export class FragmentElement extends ManagedElement {
     super();
   }
 
-  toString() {
-    return this.children.join("");
+  toString(config?: Partial<FormattingConfig>, depth: number = 0) {
+    return this.children.map(child => {
+      return child instanceof ManagedElement ? child.toString(config, depth) : child.toString();
+    }).join(config?.addNewlines ? "\n" : "");
   }
 
   getChildren() {
