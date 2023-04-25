@@ -19,6 +19,7 @@ export abstract class ManagedElement extends Node {
   ____ignored: any;
 
   static async parse(reader: XmlStreamReader, context: ParseContext): Promise<ManagedElement | typeof ConstructionFailure> {
+    const lc = LocationContext.fromStream(reader);
     const open = await reader.readKind("tag");
     const constructor = context.getConstructor(open.name);
 
@@ -35,8 +36,11 @@ export abstract class ManagedElement extends Node {
     if (open.isSelfClosing) {
       await reader.readKind("closeTag");
 
-      if (!constructor)
-        return DefaultElement.selfClosing(open.name, open.attributes);
+      if (!constructor) {
+        const el = DefaultElement.selfClosing(open.name, open.attributes);
+        (el as any).position = lc;
+        return el;
+      }
 
       const instance = constructor(open.attributes, [], LocationContext.fromStream(reader));
 
@@ -70,8 +74,6 @@ export abstract class ManagedElement extends Node {
 
       return result;
     } else {
-      const lc = LocationContext.fromStream(reader);
-
       const el = new DefaultElement(open.name, open.attributes, children);
 
       (el.position as any) = lc;
