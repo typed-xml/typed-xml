@@ -1,6 +1,6 @@
 import "./comment";
 
-import { ParseContext } from "../context";
+import { LocationContext, ParseContext } from "../context";
 import { XmlStreamReader } from "../reader/xmlStreamReader";
 import { Node } from "./node";
 
@@ -15,10 +15,10 @@ export class CDataNode extends Node {
 
     await reader.readKind("closeCData");
 
-    return new CDataNode(text);
+    return new CDataNode(text, LocationContext.fromStream(reader));
   }
 
-  constructor(protected text: string) { super() }
+  constructor(protected text: string, position?: LocationContext<unknown>) { super(position) }
 
   setContents(text: string) {
     const [self, ...others] = this.text.split("]]>");

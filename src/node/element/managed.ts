@@ -70,7 +70,13 @@ export abstract class ManagedElement extends Node {
 
       return result;
     } else {
-      return new DefaultElement(open.name, open.attributes, children);
+      const lc = LocationContext.fromStream(reader);
+
+      const el = new DefaultElement(open.name, open.attributes, children);
+
+      (el.position as any) = lc;
+
+      return el;
     }
   }
 

@@ -26,7 +26,12 @@ export class ParseContext {
       return;
     }
 
-    this.constructors.set(klass.name.toLowerCase(), (attributes, children) => new klass(klass.name, attributes, children))
+    //TODO FIX
+    this.constructors.set(klass.name.toLowerCase(), (attributes, children, location) => {
+      let v = new klass(klass.name, attributes, children);
+      (v as any).position = location;
+      return v;
+    })
   }
 
   getConstructor(name: string): ConstructorFn | undefined {

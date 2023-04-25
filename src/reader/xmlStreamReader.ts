@@ -8,6 +8,7 @@ export class XmlStreamReader<T = unknown> extends Emittery<{
   protected requestQueue: ({ consume: boolean, resolve: (symbol: XmlSymbol) => void, reject: (error: Error) => void })[] = [];
   protected symbolQueue: XmlSymbol[] = [];
   protected closed = false;
+  protected source = "";
 
   constructor(strict: boolean = false, public tag?: T) {
     super();
@@ -49,6 +50,7 @@ export class XmlStreamReader<T = unknown> extends Emittery<{
   getLine() { return this.parser.line }
   getColumn() { return this.parser.column }
   getPosition() { return this.parser.position }
+  getSource() { return this.source }
 
   private onSymbol(symbol: XmlSymbol) {
     const request = this.requestQueue.shift();
@@ -114,6 +116,7 @@ export class XmlStreamReader<T = unknown> extends Emittery<{
 
   write(chunk: string) {
     this.parser.write(chunk);
+    this.source += chunk;
   }
 
   end() {

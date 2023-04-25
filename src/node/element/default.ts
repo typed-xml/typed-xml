@@ -1,5 +1,5 @@
 import { ManagedElement } from ".";
-import { ConstructorFn, ParseContext } from "../../context";
+import { ConstructorFn, LocationContext, ParseContext } from "../../context";
 import { Node } from "../node";
 import { FragmentElement } from "./fragment";
 

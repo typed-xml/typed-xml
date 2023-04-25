@@ -1,6 +1,6 @@
 import "./processingInstruction";
 
-import { ParseContext } from "../context";
+import { LocationContext, ParseContext } from "../context";
 import { XmlStreamReader } from "../reader";
 import { Node } from "./node";
 
@@ -8,10 +8,10 @@ export class DoctypeNode extends Node {
   static async parse(reader: XmlStreamReader, _context: ParseContext): Promise<DoctypeNode> {
     const { doctype } = await reader.readKind("doctype");
 
-    return new DoctypeNode(doctype);
+    return new DoctypeNode(doctype, LocationContext.fromStream(reader));
   }
 
-  constructor(protected doctype: string) { super() }
+  constructor(protected doctype: string, position?: LocationContext<unknown>) { super(position) }
 
   setDoctype(doctype: string) { this.doctype = doctype }
   getDoctype() { return this.doctype }

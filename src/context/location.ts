@@ -7,6 +7,7 @@ export class LocationContext<T> {
       stream.getLine(),
       stream.getColumn(),
       stream.getPosition(),
+      stream.getSource(),
     )
   }
 
@@ -15,5 +16,6 @@ export class LocationContext<T> {
     public readonly line: number,
     public readonly column: number,
     public readonly position: number,
+    public readonly source: string,
   ) {}
 }

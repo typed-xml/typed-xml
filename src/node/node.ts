@@ -1,4 +1,4 @@
-import { ConstructionFailure, ParseContext } from "../context";
+import { ConstructionFailure, LocationContext, ParseContext } from "../context";
 import { XmlStreamReader } from "../reader/xmlStreamReader";
 import { CDataNode } from "./cdata";
 import { CommentNode } from "./comment";
@@ -31,6 +31,10 @@ export abstract class Node {
 
     throw new Error(`Unexpected node kind ${next.kind}`);
   }
+
+  constructor(
+    public readonly position?: LocationContext<unknown>,
+  ) {}
 
   public parentContainer: FragmentElement | DefaultElement | undefined;
 
