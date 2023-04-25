@@ -6,9 +6,9 @@ import { Node } from "./node";
 
 export class CommentNode extends Node {
   static async parse(reader: XmlStreamReader, _context: ParseContext): Promise<CommentNode> {
-    const { contents } = await reader.readKind("comment");
+    const comment = await reader.readKind("comment");
 
-    return new CommentNode(contents, LocationContext.fromStream(reader));
+    return new CommentNode(comment.contents, LocationContext.fromStreamSymbol(reader, comment));
   }
 
   constructor(protected text: string, location: LocationContext<unknown>) { super(location) }

@@ -6,9 +6,9 @@ import { Node } from "./node";
 
 export class ProcessingInstructionNode extends Node {
   static async parse(reader: XmlStreamReader, _context: ParseContext): Promise<ProcessingInstructionNode> {
-    const { name, body } = await reader.readKind("processingInstruction");
+    const symbol = await reader.readKind("processingInstruction");
 
-    return new ProcessingInstructionNode(name, body, LocationContext.fromStream(reader));
+    return new ProcessingInstructionNode(symbol.name, symbol.body, LocationContext.fromStreamSymbol(reader, symbol));
   }
 
   constructor(protected name: string, protected body: string, position?: LocationContext<unknown>) { super(position) }

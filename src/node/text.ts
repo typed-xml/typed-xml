@@ -13,9 +13,9 @@ const escapeCharacters = {
 
 export class TextNode extends Node {
   static async parse(reader: XmlStreamReader, _context: ParseContext): Promise<TextNode> {
-    const { text } = await reader.readKind("text");
+    const symbol = await reader.readKind("text");
 
-    return new TextNode(desanitize(text, escapeCharacters), LocationContext.fromStream(reader));
+    return new TextNode(desanitize(symbol.text, escapeCharacters), LocationContext.fromStreamSymbol(reader, symbol));
   }
 
   constructor(protected text: string, position?: LocationContext<unknown>) { super(position) }

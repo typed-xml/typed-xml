@@ -19,8 +19,8 @@ export abstract class ManagedElement extends Node {
   ____ignored: any;
 
   static async parse(reader: XmlStreamReader, context: ParseContext): Promise<ManagedElement | typeof ConstructionFailure> {
-    const lc = LocationContext.fromStream(reader);
     const open = await reader.readKind("tag");
+    const lc = LocationContext.fromStreamSymbol(reader, open);
     const constructor = context.getConstructor(open.name);
 
     for (let [key, value] of Object.entries(open.attributes)) {
@@ -42,7 +42,7 @@ export abstract class ManagedElement extends Node {
         return el;
       }
 
-      const instance = constructor(open.attributes, [], LocationContext.fromStream(reader));
+      const instance = constructor(open.attributes, [], lc);
 
       if (instance !== ConstructionFailure)
         instance.isSelfClosing = true;
@@ -67,7 +67,7 @@ export abstract class ManagedElement extends Node {
         child.parentContainer = fragment;
       }
 
-      const result = constructor(open.attributes, children, LocationContext.fromStream(reader));
+      const result = constructor(open.attributes, children, lc);
 
       if (result !== ConstructionFailure)
         fragment.parent = result;

@@ -1,3 +1,9 @@
+export type SymbolLocation = {
+  line: number,
+  column: number,
+  position: number,
+}
+
 export type TextSymbol = {
   kind: "text",
   text: string,
@@ -44,7 +50,7 @@ export type CData = {
   chunk: string,
 }
 
-export type XmlSymbol = 
+export type XmlUnlocatedSymbol = 
   | TextSymbol
   | DoctypeSymbol
   | ProcessingInstructionSymbol
@@ -54,3 +60,5 @@ export type XmlSymbol =
   | OpenCData
   | CloseCData
   | CData
+
+export type XmlSymbol = { location: SymbolLocation } & XmlUnlocatedSymbol;

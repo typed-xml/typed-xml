@@ -1,12 +1,12 @@
-import { XmlStreamReader } from "../reader";
+import { XmlStreamReader, XmlSymbol } from "../reader";
 
 export class LocationContext<T> {
-  static fromStream<T extends XmlStreamReader<any>>(stream: T): LocationContext<T extends XmlStreamReader<infer Tag> ? Tag : unknown> {
+  static fromStreamSymbol<T extends XmlStreamReader<any>>(stream: T, symbol: XmlSymbol): LocationContext<T extends XmlStreamReader<infer Tag> ? Tag : unknown> {
     return new LocationContext(
       stream.tag,
-      stream.getLine(),
-      stream.getColumn(),
-      stream.getPosition(),
+      symbol.location.line,
+      symbol.location.column,
+      symbol.location.position,
       stream.getSource(),
     )
   }

@@ -6,9 +6,9 @@ import { Node } from "./node";
 
 export class DoctypeNode extends Node {
   static async parse(reader: XmlStreamReader, _context: ParseContext): Promise<DoctypeNode> {
-    const { doctype } = await reader.readKind("doctype");
+    const symbol = await reader.readKind("doctype");
 
-    return new DoctypeNode(doctype, LocationContext.fromStream(reader));
+    return new DoctypeNode(symbol.doctype, LocationContext.fromStreamSymbol(reader, symbol));
   }
 
   constructor(protected doctype: string, position?: LocationContext<unknown>) { super(position) }
