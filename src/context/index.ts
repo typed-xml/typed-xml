@@ -34,6 +34,19 @@ export class ParseContext {
     })
   }
 
+  registerCustomNamedConstructor(name: string, klass: ElementClass): void {
+    if ("new" in klass) {
+      this.constructors.set(name.toLowerCase(), klass.new);
+      return;
+    }
+
+    this.constructors.set(name.toLowerCase(), (attributes, children, location) => {
+      let v = new klass(name, attributes, children);
+      (v as any).position = location;
+      return v;
+    })
+  }
+
   getConstructor(name: string): ConstructorFn | undefined {
     return this.constructors.get(name.toLowerCase());
   }
